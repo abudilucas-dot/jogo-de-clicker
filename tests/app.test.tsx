@@ -16,3 +16,10 @@ it('earns paws when the panda is clicked', async () => {
 
   expect(screen.getByText(/1 patas/i)).toBeInTheDocument()
 })
+
+it('opens the habitat map from navigation', async () => {
+  const user = userEvent.setup()
+  render(<App />)
+  await user.click(screen.getByRole('button', { name: 'Mapa' }))
+  expect(screen.getByRole('heading', { name: 'Mapa' })).toBeInTheDocument()
+})
