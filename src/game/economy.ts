@@ -31,7 +31,7 @@ export function calculateOfflineReward(state: GameState, now: number): number {
 }
 
 export function calculateClickReward(state: GameState): number {
-  return 1 + Math.floor(state.moonlight * 0.1)
+  return 1 + Math.ceil(state.moonlight * 0.1)
 }
 
 export function calculatePrestigeReward(state: GameState): number {
