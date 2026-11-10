@@ -2,5 +2,6 @@
 .superpowers/
 node_modules/
 dist/
+tsconfig.tsbuildinfo
 .env
 .env.local
