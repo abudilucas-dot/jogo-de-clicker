@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react'
 import { GENERATORS, HABITATS } from './content/zoo'
-import { calculateGeneratorCost, calculateProductionPerSecond } from './game/economy'
+import { calculateGeneratorCost, calculatePrestigeReward, calculateProductionPerSecond } from './game/economy'
 import { formatNumber } from './game/format'
 import { createInitialGameState, reduceGame } from './game/reducer'
 import { loadLocalSave, saveLocal } from './storage/local-save'
@@ -15,6 +15,7 @@ export function App() {
   const [notice, setNotice] = useState('')
   const production = calculateProductionPerSecond(state)
   const activeHabitat = HABITATS.find((habitat) => habitat.id === state.activeHabitatId) ?? HABITATS[0]
+  const prestigeReward = calculatePrestigeReward(state)
   const animalEmoji: Record<string, string> = { bamboo: '🐼', 'neon-savanna': '🦓', 'moon-garden': '🦊', 'prism-aquarium': '🦎', 'star-jungle': '🐯' }
   const sendMagicLink = async () => { if (!supabase || !email) return setNotice('Informe seu e-mail para sincronizar.'); const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin } }); setNotice(error ? error.message : 'Link de acesso enviado. Abra seu e-mail para sincronizar o zoo.') }
   useEffect(() => { saveLocal(state); const timer = window.setInterval(() => dispatch({ type: 'CLAIM_OFFLINE', now: Date.now() }), 1000); return () => window.clearInterval(timer) }, [state])

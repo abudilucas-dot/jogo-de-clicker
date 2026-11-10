@@ -26,4 +26,10 @@ describe('game reducer', () => {
     expect(result.paws).toBe(5_000)
     expect(result.activeHabitatId).toBe('neon-savanna')
   })
+
+  it('applies a permanent moonlight bonus to clicks after prestige', () => {
+    const state = createInitialGameState({ paws: 1_000_000, totalPawsEarned: 1_000_000 })
+    const prestiged = reduceGame(state, { type: 'PRESTIGE' })
+    expect(reduceGame(prestiged, { type: 'CLICK' }).paws).toBeGreaterThan(1)
+  })
 })
