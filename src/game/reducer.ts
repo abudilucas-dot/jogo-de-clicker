@@ -36,6 +36,11 @@ export function reduceGame(state: GameState, action: GameAction): GameState {
     }
   }
 
+  if (action.type === 'UNLOCK_HABITAT') {
+    if (state.paws < action.cost || state.unlockedHabitatIds.includes(action.habitatId)) return state
+    return { ...state, paws: state.paws - action.cost, unlockedHabitatIds: [...state.unlockedHabitatIds, action.habitatId] }
+  }
+
   if (action.type === 'PRESTIGE') {
     const reward = calculatePrestigeReward(state)
     if (reward < 1) return state

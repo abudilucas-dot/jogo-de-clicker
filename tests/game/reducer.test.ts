@@ -18,4 +18,11 @@ describe('game reducer', () => {
     expect(result.habitatUpgradeIds).toEqual(['bamboo-lantern'])
     expect(result.moonlight).toBeGreaterThan(0)
   })
+
+  it('unlocks a habitat when the player can afford it', () => {
+    const state = createInitialGameState({ paws: 30_000 })
+    const result = reduceGame(state, { type: 'UNLOCK_HABITAT', habitatId: 'neon-savanna', cost: 25_000 })
+    expect(result.unlockedHabitatIds).toContain('neon-savanna')
+    expect(result.paws).toBe(5_000)
+  })
 })

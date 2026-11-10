@@ -31,4 +31,5 @@ export type GameAction =
   | { type: 'CLICK' }
   | { type: 'BUY_GENERATOR'; generatorId: GeneratorId; quantity: number }
   | { type: 'CLAIM_OFFLINE'; now: number }
+  | { type: 'UNLOCK_HABITAT'; habitatId: HabitatId; cost: number }
   | { type: 'PRESTIGE' }
