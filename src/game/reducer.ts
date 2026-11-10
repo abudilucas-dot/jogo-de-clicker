@@ -8,6 +8,7 @@ export function createInitialGameState(overrides: Partial<GameState> = {}): Game
     totalPawsEarned: 0,
     generatorLevels: {},
     unlockedHabitatIds: ['bamboo'],
+    activeHabitatId: 'bamboo',
     habitatUpgradeIds: [],
     lastSavedAt: Date.now(),
     ...overrides,
@@ -38,7 +39,7 @@ export function reduceGame(state: GameState, action: GameAction): GameState {
 
   if (action.type === 'UNLOCK_HABITAT') {
     if (state.paws < action.cost || state.unlockedHabitatIds.includes(action.habitatId)) return state
-    return { ...state, paws: state.paws - action.cost, unlockedHabitatIds: [...state.unlockedHabitatIds, action.habitatId] }
+    return { ...state, paws: state.paws - action.cost, unlockedHabitatIds: [...state.unlockedHabitatIds, action.habitatId], activeHabitatId: action.habitatId }
   }
 
   if (action.type === 'PRESTIGE') {

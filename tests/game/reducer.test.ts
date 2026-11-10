@@ -24,5 +24,6 @@ describe('game reducer', () => {
     const result = reduceGame(state, { type: 'UNLOCK_HABITAT', habitatId: 'neon-savanna', cost: 25_000 })
     expect(result.unlockedHabitatIds).toContain('neon-savanna')
     expect(result.paws).toBe(5_000)
+    expect(result.activeHabitatId).toBe('neon-savanna')
   })
 })

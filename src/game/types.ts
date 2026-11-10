@@ -23,6 +23,7 @@ export interface GameState {
   totalPawsEarned: number
   generatorLevels: Partial<Record<GeneratorId, number>>
   unlockedHabitatIds: HabitatId[]
+  activeHabitatId: HabitatId
   habitatUpgradeIds: string[]
   lastSavedAt: number
 }
