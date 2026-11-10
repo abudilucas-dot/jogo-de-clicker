@@ -1,6 +1,6 @@
 export type HabitatId = 'bamboo' | 'neon-savanna' | 'moon-garden' | 'prism-aquarium' | 'star-jungle'
 
-export type GeneratorId = 'bamboo' | 'lantern' | 'drone' | 'observatory'
+export type GeneratorId = string
 
 export interface GeneratorDefinition {
   id: GeneratorId
