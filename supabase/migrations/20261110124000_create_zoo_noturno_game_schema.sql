@@ -1,0 +1,12 @@
+create table public.player_profiles (user_id uuid primary key references auth.users(id) on delete cascade, nickname text unique, leaderboard_opt_in boolean not null default false, created_at timestamptz not null default now(), updated_at timestamptz not null default now(), constraint nickname_required_when_opted_in check (not leaderboard_opt_in or char_length(trim(coalesce(nickname,''))) between 3 and 24));
+create table public.game_saves (user_id uuid primary key references auth.users(id) on delete cascade, state jsonb not null, progress_score bigint not null default 0 check (progress_score >= 0), event_id uuid not null unique, updated_at timestamptz not null default now());
+alter table public.player_profiles enable row level security;
+alter table public.game_saves enable row level security;
+create policy "players read own profile" on public.player_profiles for select to authenticated using ((select auth.uid()) = user_id);
+create policy "players insert own profile" on public.player_profiles for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "players update own profile" on public.player_profiles for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+create policy "players read own save" on public.game_saves for select to authenticated using ((select auth.uid()) = user_id);
+create policy "players insert own save" on public.game_saves for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "players update own save" on public.game_saves for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+create view public.leaderboard with (security_invoker = true) as select p.nickname, s.progress_score, s.updated_at from public.player_profiles p join public.game_saves s on s.user_id=p.user_id where p.leaderboard_opt_in = true;
+grant select on public.leaderboard to anon, authenticated;
